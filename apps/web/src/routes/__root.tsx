@@ -9,7 +9,7 @@ import { ClerkProvider } from "@clerk/tanstack-react-start";
 
 export const Route = createRootRoute({
   component: () => (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={"pk_live_Y2xlcmsuY29kZWNpbm8uaW8k"}>
       <Bg
         style={{
           position: "absolute",
