@@ -1,5 +1,5 @@
 {
-  "name": "trade-journal",
+  "name": "eye-of-the-table",
   "private": true,
   "scripts": {
     "build": "turbo run build",
