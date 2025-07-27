@@ -1,35 +1,51 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRoute } from "@tanstack/react-router";
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import {
-  Flex, Avatar, Box
-} from '@radix-ui/themes';
+import { Flex, Avatar, Box } from "@radix-ui/themes";
 
-import { Nav } from '@/components/nav'
-import { UserSettings } from '@/components/userSettings'
-import Bg from '@/assets/bg.svg?react';
-
+import { Nav } from "@/components/nav";
+import { UserSettings } from "@/components/userSettings";
+import Bg from "@/assets/bg.svg?react";
+import { ClerkProvider } from "@clerk/tanstack-react-start";
 
 export const Route = createRootRoute({
   component: () => (
-    <>
-      <Bg style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1, opacity: .5 }} width="100vw" height="100vh" />
-      <Flex className="h-screen" direction="column" gap="4" >
+    <ClerkProvider>
+      <Bg
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: -1,
+          opacity: 0.5,
+        }}
+        width="100vw"
+        height="100vh"
+      />
+      <Flex className="h-screen" direction="column" gap="4">
         <Flex>
-          <Flex direction="column" gap="2" className="navigation" align={'center'} pb="5">
-            <Flex gap="2" justify='center' m="8">
+          <Flex
+            direction="column"
+            gap="2"
+            className="navigation"
+            align={"center"}
+            pb="5"
+          >
+            <Flex gap="2" justify="center" m="8">
               <Avatar
-                src={'https://i.pravatar.cc/128'}
+                src={"https://i.pravatar.cc/128"}
                 fallback={"ME"}
                 size={{
                   sm: "3",
                   md: "6",
                 }}
                 radius="full"
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               />
             </Flex>
             <Flex flexGrow="1">
-              <Nav  />
+              <Nav />
             </Flex>
             <UserSettings
               userName="User"
@@ -37,7 +53,10 @@ export const Route = createRootRoute({
             />
           </Flex>
 
-          <main className="main-content" style={{ height: "100vh", overflowY: "scroll", flexGrow: 1 }}>
+          <main
+            className="main-content"
+            style={{ height: "100vh", overflowY: "scroll", flexGrow: 1 }}
+          >
             <Box p="6" pt="9">
               <Outlet />
             </Box>
@@ -45,6 +64,6 @@ export const Route = createRootRoute({
         </Flex>
       </Flex>
       {/* <TanStackRouterDevtools /> */}
-    </>
+    </ClerkProvider>
   ),
-})
+});

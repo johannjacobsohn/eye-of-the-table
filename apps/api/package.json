@@ -19,6 +19,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^5.1.6",
+    "@clerk/fastify": "^2.4.13",
     "@fastify/autoload": "^6.0.0",
     "@fastify/sensible": "^6.0.0",
     "@fastify/swagger": "^9.5.1",
