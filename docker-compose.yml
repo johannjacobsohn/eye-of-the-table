@@ -1,0 +1,38 @@
+services:
+  web:
+    build:
+      context: ./apps/web/
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - api
+    networks:
+      - frontend
+    ports:
+      - 8080
+    expose: 
+      - 8080
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - backend
+      - frontend
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./pgdata
+      o: bind
+
