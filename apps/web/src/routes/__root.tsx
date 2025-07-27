@@ -9,7 +9,7 @@ import { ClerkProvider } from "@clerk/tanstack-react-start";
 
 export const Route = createRootRoute({
   component: () => (
-    <ClerkProvider publishableKey={"pk_live_Y2xlcmsuY29kZWNpbm8uaW8k"}>
+    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
       <Bg
         style={{
           position: "absolute",
@@ -32,18 +32,6 @@ export const Route = createRootRoute({
             align={"center"}
             pb="5"
           >
-            <Flex gap="2" justify="center" m="8">
-              <Avatar
-                src={"https://i.pravatar.cc/128"}
-                fallback={"ME"}
-                size={{
-                  sm: "3",
-                  md: "6",
-                }}
-                radius="full"
-                style={{ cursor: "pointer" }}
-              />
-            </Flex>
             <Flex flexGrow="1">
               <Nav />
             </Flex>

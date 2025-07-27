@@ -1,7 +1,7 @@
-// import { createFileRoute } from "@tanstack/react-router";
-// import { Card, Heading, Text } from "@radix-ui/themes";
-// import { useTranslation } from "react-i18next";
-// import { PopulationChartSection } from "@/components/population/PopulationChartSection";
+import { createFileRoute } from "@tanstack/react-router";
+import { Card, Heading, Text, Button, Flex } from "@radix-ui/themes";
+import { useTranslation } from "react-i18next";
+import { PopulationChartSection } from "@/components/population/PopulationChartSection";
 
 // export const Route = createFileRoute("/")({
 //   component: App,
@@ -39,30 +39,43 @@ import {
   SignInButton,
   SignUpButton,
 } from "@clerk/tanstack-react-start";
-import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Home,
 });
 
 function Home() {
+  const { t } = useTranslation();
+
   return (
     <div>
-      <h1>Index Route</h1>
-      <SignedIn>
-        <p>You are signed in</p>
+      <Heading as="h1" size="8">
+        <Text color="purple">Eye</Text> Of the T<Text color="purple">able</Text>
+      </Heading>
+      <Card my="6" size="4">
+        <Heading as="h2" size="6" mb="3">
+          {t("Welcome to this sample application")}
+        </Heading>
+        <Text>{t("This is a simple application.")}</Text>
+        <SignedOut>
+          <Flex gap="4" justify="center" align="center" m="2">
+            <Button size="4" asChild>
+              <SignInButton />
+            </Button>
+            or
+            <Button size="4" asChild>
+              <SignUpButton />
+            </Button>
+          </Flex>
+        </SignedOut>
+      </Card>
 
+      <SignedIn>
+        <PopulationChartSection />
         <UserButton />
 
         <SignOutButton />
       </SignedIn>
-      <SignedOut>
-        <p>You are signed out</p>
-
-        <SignInButton />
-
-        <SignUpButton />
-      </SignedOut>
     </div>
   );
 }
