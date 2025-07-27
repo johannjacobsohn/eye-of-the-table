@@ -1,6 +1,8 @@
+import 'dotenv/config'
 import { join } from 'node:path'
 import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload'
 import { FastifyPluginAsync, FastifyServerOptions } from 'fastify'
+import { clerkPlugin } from '@clerk/fastify'
 
 export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {
 
@@ -30,6 +32,8 @@ const app: FastifyPluginAsync<AppOptions> = async (
     transformSpecification: (swaggerObject, request, reply) => { return swaggerObject },
     transformSpecificationClone: true
   })
+
+  fastify.register(clerkPlugin)
 
 
   // Do not touch the following lines
