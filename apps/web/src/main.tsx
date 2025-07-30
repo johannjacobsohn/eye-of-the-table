@@ -42,7 +42,7 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <ThemeProvider attribute="class" defaultTheme="dark">
-        <Theme accentColor="pink" grayColor="slate">
+        <Theme accentColor="purple" grayColor="slate">
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
           </QueryClientProvider>
