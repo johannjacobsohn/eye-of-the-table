@@ -5,8 +5,6 @@ import { PopulationChartSection } from "@/components/population/PopulationChartS
 
 import {
   SignedIn,
-  UserButton,
-  SignOutButton,
   SignedOut,
   SignInButton,
   SignUpButton,
@@ -44,9 +42,6 @@ function Home() {
 
       <SignedIn>
         <PopulationChartSection />
-        <UserButton />
-
-        <SignOutButton />
       </SignedIn>
     </div>
   );
