@@ -1,4 +1,4 @@
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Flex, Text, Heading, Button } from "@radix-ui/themes";
 
@@ -10,63 +10,64 @@ import {
   SignedOut,
   SignInButton,
   SignUpButton,
-  ClerkProvider,
+  useAuth,
 } from "@clerk/tanstack-react-start";
+
+interface RootRouteContext {
+  auth?: ReturnType<typeof useAuth>;
+}
 
 const RootLayout = () => {
   return (
-    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
-      <div className="app-container">
-        <header className="header">
-          <Flex
-            justify="between"
-            align="center"
-            style={{ height: "100%", padding: "0 1.5rem" }}
-          >
-            <Flex align="center" gap="3">
-              <Heading size="5">
-                <Text color="purple">Eye</Text> Of the T
-                <Text color="purple">able</Text>
-              </Heading>
-            </Flex>
-
-            <Flex align="center" gap="4">
-              <SignedOut>
-                <Flex gap="4" justify="center" align="center" m="2">
-                  <Button size="2" asChild>
-                    <SignInButton />
-                  </Button>
-                  or
-                  <Button size="2" asChild>
-                    <SignUpButton />
-                  </Button>
-                </Flex>
-              </SignedOut>
-              <SignedIn>
-                <UserSettings />
-              </SignedIn>
-            </Flex>
+    <div className="app-container">
+      <header className="header">
+        <Flex
+          justify="between"
+          align="center"
+          style={{ height: "100%", padding: "0 1.5rem" }}
+        >
+          <Flex align="center" gap="3">
+            <Heading size="5">
+              <Text color="purple">Eye</Text> Of the T
+              <Text color="purple">able</Text>
+            </Heading>
           </Flex>
-        </header>
 
-        <div className="content-container">
-          <aside className={`navigation`}>
-            <Nav />
-          </aside>
+          <Flex align="center" gap="4">
+            <SignedOut>
+              <Flex gap="4" justify="center" align="center" m="2">
+                <Button size="2" asChild>
+                  <SignInButton />
+                </Button>
+                or
+                <Button size="2" asChild>
+                  <SignUpButton />
+                </Button>
+              </Flex>
+            </SignedOut>
+            <SignedIn>
+              <UserSettings />
+            </SignedIn>
+          </Flex>
+        </Flex>
+      </header>
 
-          <main
-            className="main-content"
-            style={{ minHeight: "calc(100vh - var(--header-height))" }}
-          >
-            <Outlet />
-          </main>
-        </div>
+      <div className="content-container">
+        <aside className={`navigation`}>
+          <Nav />
+        </aside>
+
+        <main
+          className="main-content"
+          style={{ minHeight: "calc(100vh - var(--header-height))" }}
+        >
+          <Outlet />
+        </main>
       </div>
-      {/* <TanStackRouterDevtools /> */}
-    </ClerkProvider>
+    </div>
   );
 };
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RootRouteContext>()({
   component: RootLayout,
 });

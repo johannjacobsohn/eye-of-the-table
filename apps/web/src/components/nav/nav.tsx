@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@/components/link";
 import { FiHome } from "react-icons/fi";
 import { MdOutlineWavingHand } from "react-icons/md";
+import { Route as HelloRoute } from "@/routes/authenticated/HelloPage";
 
 import { Flex, Text } from "@radix-ui/themes";
 import { useLocation } from "@tanstack/react-router";
@@ -44,7 +45,7 @@ export function Nav() {
             </Link>
           </li>
           <li>
-            <Link to="/HelloPage">
+            <Link to={HelloRoute.to}>
               <Flex
                 align="center"
                 gap="3"

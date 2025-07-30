@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { MdOutlineWavingHand } from "react-icons/md";
+import { Heading } from "@radix-ui/themes";
 
-export const Route = createFileRoute("/HelloPage")({
+export const Route = createFileRoute("/authenticated/HelloPage")({
   component: HelloPage,
 });
 
@@ -17,8 +19,11 @@ function HelloPage() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Hello Page</h1>
+    <div>
+      <Heading as="h1" size="8">
+        <MdOutlineWavingHand size="28" /> Hej!
+      </Heading>
+
       <input
         type="text"
         placeholder="Enter your name"
