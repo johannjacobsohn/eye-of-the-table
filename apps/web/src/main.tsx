@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { ClerkProvider, useAuth } from "@clerk/clerk-react";
 import "@radix-ui/themes/styles.css";
 
 // Import the generated route tree
@@ -35,6 +36,11 @@ declare module "@tanstack/react-router" {
 
 const queryClient = new QueryClient();
 
+function App() {
+  const auth = useAuth();
+
+  return <RouterProvider router={router} context={{ auth }} />;
+}
 // Render the app
 const rootElement = document.getElementById("app");
 if (rootElement && !rootElement.innerHTML) {
@@ -44,19 +50,17 @@ if (rootElement && !rootElement.innerHTML) {
       <ThemeProvider attribute="class" defaultTheme="dark">
         <Theme accentColor="purple" grayColor="slate">
           <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
+            <ClerkProvider
+              publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
+            >
+              <App />
+            </ClerkProvider>
           </QueryClientProvider>
         </Theme>
       </ThemeProvider>
     </StrictMode>
   );
 }
-
-// Beispielintegration der Umgebungsvariable
-console.log(
-  "Clerk Publishable Key:",
-  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -9,13 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as HelloPageRouteImport } from './routes/HelloPage'
+import { Route as AuthenticatedRouteRouteImport } from './routes/authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
+import { Route as AuthenticatedHelloPageRouteImport } from './routes/authenticated/HelloPage'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
-const HelloPageRoute = HelloPageRouteImport.update({
-  id: '/HelloPage',
-  path: '/HelloPage',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/authenticated',
+  path: '/authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -28,44 +30,77 @@ const SignInSplatRoute = SignInSplatRouteImport.update({
   path: '/sign-in/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedHelloPageRoute = AuthenticatedHelloPageRouteImport.update({
+  id: '/HelloPage',
+  path: '/HelloPage',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/HelloPage': typeof HelloPageRoute
+  '/authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/login': typeof authLoginRoute
+  '/authenticated/HelloPage': typeof AuthenticatedHelloPageRoute
   '/sign-in/$': typeof SignInSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/HelloPage': typeof HelloPageRoute
+  '/authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/login': typeof authLoginRoute
+  '/authenticated/HelloPage': typeof AuthenticatedHelloPageRoute
   '/sign-in/$': typeof SignInSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/HelloPage': typeof HelloPageRoute
+  '/authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/(auth)/login': typeof authLoginRoute
+  '/authenticated/HelloPage': typeof AuthenticatedHelloPageRoute
   '/sign-in/$': typeof SignInSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/HelloPage' | '/sign-in/$'
+  fullPaths:
+    | '/'
+    | '/authenticated'
+    | '/login'
+    | '/authenticated/HelloPage'
+    | '/sign-in/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/HelloPage' | '/sign-in/$'
-  id: '__root__' | '/' | '/HelloPage' | '/sign-in/$'
+  to:
+    | '/'
+    | '/authenticated'
+    | '/login'
+    | '/authenticated/HelloPage'
+    | '/sign-in/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/authenticated'
+    | '/(auth)/login'
+    | '/authenticated/HelloPage'
+    | '/sign-in/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  HelloPageRoute: typeof HelloPageRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  authLoginRoute: typeof authLoginRoute
   SignInSplatRoute: typeof SignInSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/HelloPage': {
-      id: '/HelloPage'
-      path: '/HelloPage'
-      fullPath: '/HelloPage'
-      preLoaderRoute: typeof HelloPageRouteImport
+    '/authenticated': {
+      id: '/authenticated'
+      path: '/authenticated'
+      fullPath: '/authenticated'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -82,12 +117,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/authenticated/HelloPage': {
+      id: '/authenticated/HelloPage'
+      path: '/HelloPage'
+      fullPath: '/authenticated/HelloPage'
+      preLoaderRoute: typeof AuthenticatedHelloPageRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedHelloPageRoute: typeof AuthenticatedHelloPageRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedHelloPageRoute: AuthenticatedHelloPageRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  HelloPageRoute: HelloPageRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  authLoginRoute: authLoginRoute,
   SignInSplatRoute: SignInSplatRoute,
 }
 export const routeTree = rootRouteImport
