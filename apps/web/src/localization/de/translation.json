@@ -24,5 +24,14 @@
   "Light": "Hell",
   "Dark": "Dunkel",
   "System": "System",
-  "Sign out": "Abmelden"
+  "Sign out": "Abmelden",
+  "Show entries": "Einträge anzeigen",
+  "Sort by Year": "Nach Jahr sortieren",
+  "Sort by Population": "Nach Bevölkerung sortieren",
+  "Oldest first": "Älteste zuerst",
+  "Newest first": "Neueste zuerst",
+  "Smallest first": "Kleinste zuerst",
+  "Largest first": "Größte zuerst",
+  "Error fetching population data": "Fehler beim Abrufen der Bevölkerungsdaten",
+  "Population data for the USA": "Bevölkerungsdaten für die USA"
 }

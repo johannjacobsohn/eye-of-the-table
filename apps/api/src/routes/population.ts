@@ -22,10 +22,11 @@ interface PopulationChartQueryData {
 
 export default async function populationRoutes(fastify: FastifyInstance) {
   fastify.get('/population', async (request, reply) => {
-    const { page = 1, limit = 10, sort = 'Year' } = request.query as {
+    const { page = 1, limit = 10, sort = 'Year', order = 'asc' } = request.query as {
       page?: number;
       limit?: number;
       sort?: string;
+      order?: 'asc' | 'desc';
     };
 
     const API_URL =
@@ -41,8 +42,9 @@ export default async function populationRoutes(fastify: FastifyInstance) {
       const filteredData = data.data.filter((item) => item['Nation'] === 'United States');
 
       const sortedData = filteredData.sort((a, b) => {
-        if (a[sort] < b[sort]) return -1;
-        if (a[sort] > b[sort]) return 1;
+        const compareValue = order === 'asc' ? 1 : -1;
+        if (a[sort] < b[sort]) return -1 * compareValue;
+        if (a[sort] > b[sort]) return 1 * compareValue;
         return 0;
       });
 
