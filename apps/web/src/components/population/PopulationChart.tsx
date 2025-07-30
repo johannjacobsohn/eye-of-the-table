@@ -42,17 +42,11 @@ export const PopulationChart: React.FC<PopulationChartProps> = ({
             border: "1px solid var(--accent-1)",
             borderRadius: "8px",
           }}
-          labelFormatter={(label) =>
-            new Date(label).toLocaleDateString("de-DE", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            })
-          }
+          labelFormatter={(label) => `Year: ${label}`}
           formatter={(value) =>
             value.toLocaleString("de-DE", {
               minimumFractionDigits: 0,
-              maximumFractionDigits: 2,
+              maximumFractionDigits: 0,
             })
           }
         />
@@ -63,13 +57,19 @@ export const PopulationChart: React.FC<PopulationChartProps> = ({
               type="monotone"
               dataKey="Total Population"
               stroke="#f44336"
-              name="Sell"
+              name="Population"
+              activeDot={{ r: 8 }}
             />
           </>
         )}
         {chartType === "bar" && (
           <>
-            <Bar dataKey="Total Population" fill="#f44336" name="Sell" />
+            <Bar
+              dataKey="Total Population"
+              fill="#f44336"
+              name="Population"
+              radius={[4, 4, 0, 0]}
+            />
           </>
         )}
       </ComposedChart>
