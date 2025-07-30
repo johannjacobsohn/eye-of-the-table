@@ -9,6 +9,9 @@ RUN apt-get update -qq && \
     corepack enable && \
     corepack install --global pnpm@latest
 
+ARG VITE_CLERK_PUBLISHABLE_KEY
+ENV VITE_CLERK_PUBLISHABLE_KEY=$VITE_CLERK_PUBLISHABLE_KEY
+
 WORKDIR /app
 COPY . /app
 RUN pnpm install
