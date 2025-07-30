@@ -1,36 +1,64 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "@/components/link";
-import { FiGrid } from "react-icons/fi";
+import { FiHome } from "react-icons/fi";
+import { MdOutlineWavingHand } from "react-icons/md";
 
 import { Flex, Text } from "@radix-ui/themes";
+import { useLocation } from "@tanstack/react-router";
 
 export function Nav() {
   const { t } = useTranslation();
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
-    <ul
-      className="navigation-list"
-      style={{ listStyleType: "none", padding: 0 }}
-    >
-      <li style={{ marginBottom: "8px" }}>
-        <Link to="/">
-          <Flex align="center" gap="2" className="nav-item">
-            <FiGrid size="20" />
-            <Text size="3" className="nav-label">
-              {t("Home")}
-            </Text>
-          </Flex>
-        </Link>
-      </li>
-      <li>
-        <Link to="/HelloPage">
-          <Flex align="center" gap="2" className="nav-item">
-            <FiGrid size="20" />
-            <Text size="3" className="nav-label">
-              {t("Hello there")}
-            </Text>
-          </Flex>
-        </Link>
-      </li>
-    </ul>
+    <div className="navigation-container">
+      <div className="nav-section">
+        <Text
+          size="2"
+          style={{
+            padding: "0.75rem 1.5rem",
+            color: "#666",
+            fontWeight: 500,
+            textTransform: "uppercase",
+          }}
+        >
+          Main
+        </Text>
+        <ul
+          className="navigation-list"
+          style={{ listStyleType: "none", padding: 0, margin: 0 }}
+        >
+          <li>
+            <Link to="/">
+              <Flex
+                align="center"
+                gap="3"
+                className={`nav-item ${currentPath === "/" ? "active" : ""}`}
+              >
+                <FiHome size="18" />
+                <Text size="3" className="nav-label">
+                  {t("Home")}
+                </Text>
+              </Flex>
+            </Link>
+          </li>
+          <li>
+            <Link to="/HelloPage">
+              <Flex
+                align="center"
+                gap="3"
+                className={`nav-item ${currentPath.includes("HelloPage") ? "active" : ""}`}
+              >
+                <MdOutlineWavingHand size="18" />
+                <Text size="3" className="nav-label">
+                  {t("Hello there")}
+                </Text>
+              </Flex>
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 }

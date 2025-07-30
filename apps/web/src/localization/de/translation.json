@@ -14,5 +14,15 @@
   "Population Chart": "Bevölkerungsdiagramm",
   "Line chart": "Liniendiagramm",
   "Bar chart": "Balkendiagramm",
-  "Filter by symbol": "Nach Symbol filtern"
+  "Filter by symbol": "Nach Symbol filtern",
+  "Settings": "Einstellungen",
+  "Signed in as": "Angemeldet als",
+  "Language": "Sprache",
+  "English": "Englisch",
+  "Deutsch": "Deutsch",
+  "Theme": "Thema",
+  "Light": "Hell",
+  "Dark": "Dunkel",
+  "System": "System",
+  "Sign out": "Abmelden"
 }

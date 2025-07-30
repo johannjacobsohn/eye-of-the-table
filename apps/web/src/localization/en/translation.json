@@ -14,5 +14,15 @@
   "Population Chart": "Population Chart",
   "Line chart": "Line chart",
   "Bar chart": "Bar chart",
-  "Filter by symbol": "Filter by symbol"
+  "Filter by symbol": "Filter by symbol",
+  "Settings": "Settings",
+  "Signed in as": "Signed in as",
+  "Language": "Language",
+  "English": "English",
+  "Deutsch": "German",
+  "Theme": "Theme",
+  "Light": "Light",
+  "Dark": "Dark",
+  "System": "System",
+  "Sign out": "Sign out"
 }
