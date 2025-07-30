@@ -15,9 +15,8 @@ import {
 
 const RootLayout = () => {
   return (
-    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
+    <ClerkProvider publishableKey="pk_live_Y2xlcmsuY29kZWNpbm8uaW8k">
       <div className="app-container">
-        {/* Header */}
         <header className="header">
           <Flex
             justify="between"
