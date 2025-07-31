@@ -11,8 +11,15 @@ export default async function helloRoutes(fastify: FastifyInstance) {
       return reply.code(401).send({ error: 'User not authenticated' })
     }
 
-    const { name } = request.query as { name?: string };
-    const message = name ? `Hello ${name}` : 'Hello World';
+    const { name, lang } = request.query as { lang?: string; name?: string };
+    let message;
+
+    if (lang === 'de') {
+      message = name ? `Hallo ${name}` : 'Hallo Welt';
+    } else {
+      message = name ? `Hello ${name}` : 'Hello World';
+    }
+
     reply.send({ message });
   });
 }

@@ -2,18 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MdOutlineWavingHand } from "react-icons/md";
 import { Flex, Heading, Text, TextField } from "@radix-ui/themes";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/authenticated/HelloPage")({
   component: HelloPage,
 });
 
-// TODO:
-// - language
-// - sort code
-// - choose voice
-// - set doc lang
-
 function HelloPage() {
+  const { i18n, t } = useTranslation();
+  const lang = i18n.language;
+
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [hasSpoken, setHasSpoken] = useState(false);
@@ -22,11 +20,13 @@ function HelloPage() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const fetchMessage = useCallback(async () => {
-    const query = name ? `?name=${encodeURIComponent(name)}` : "";
+    const query = name
+      ? `?name=${encodeURIComponent(name)}&lang=${encodeURIComponent(lang)}`
+      : `?lang=${encodeURIComponent(lang)}`;
     const res = await fetch(`/api/hello${query}`);
     const data = await res.json();
     setMessage(data.message);
-  }, [name]);
+  }, [name, lang]);
 
   useEffect(() => {
     if (message && videoRef.current) {
@@ -34,6 +34,7 @@ function HelloPage() {
     }
   }, [message]);
 
+  // manage overlay
   const revealOverlay = useCallback(() => {
     wordRefs.current.forEach((w, index) => {
       setTimeout(() => {
@@ -48,84 +49,68 @@ function HelloPage() {
     });
   }, [wordRefs]);
 
-  const handleVideoEnd = useCallback(() => {
-    if (videoRef.current) {
-      videoRef.current.style.opacity = "0";
-      hideOverlay();
-    }
-  }, [videoRef, hideOverlay]);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.addEventListener("ended", handleVideoEnd);
-    }
-
-    return () => {
-      if (videoRef.current) {
-        videoRef.current.removeEventListener("ended", handleVideoEnd);
-      }
-    };
-  }, [videoRef, handleVideoEnd]);
-
-  useEffect(() => {
-    const handleVideoStart = () => {
-      if (videoRef.current) {
-        videoRef.current.style.opacity = "1";
-      }
-      setHasSpoken(false);
-    };
-
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      videoElement.addEventListener("play", handleVideoStart);
-    }
-
-    return () => {
-      if (videoElement) {
-        videoElement.removeEventListener("play", handleVideoStart);
-      }
-    };
-  }, []);
-
-  const synth = window.speechSynthesis;
-
-  const voices = synth.getVoices().filter((voice) => voice.lang === "de-DE");
-  const voice = voices[1];
+  // manage speech
   const sayMyName = useCallback(async () => {
     if (!message || hasSpoken) return;
     revealOverlay();
     setHasSpoken(true);
     const utterance = new SpeechSynthesisUtterance(message);
-    utterance.lang = "de-DE";
-    utterance.voice = voice;
+    utterance.lang = lang === "de" ? "de-DE" : "en-US";
+
+    const voices = window.speechSynthesis
+      .getVoices()
+      .filter((v) => v.lang === lang);
+    utterance.voice = voices[Math.floor(Math.random() * voices.length)]; // Use random voice
+
     speechSynthesis.speak(utterance);
     await new Promise((resolve) => {
       utterance.onend = resolve;
     });
-  }, [message, voice, hasSpoken]);
+  }, [message, hasSpoken, revealOverlay, lang]);
 
-  useEffect(() => {
-    const handleTimeUpdate = () => {
-      const videoElement = videoRef.current;
-      if (videoElement) {
-        if (videoElement.currentTime >= 0.9) {
-          sayMyName();
-        }
-      }
-    };
+  // manage video
+  const handleVideoEnd = useCallback(() => {
+    if (videoRef.current) videoRef.current.style.opacity = "0";
+    if (formRef.current) formRef.current.style.opacity = "1";
+    hideOverlay();
+  }, [videoRef, formRef, hideOverlay]);
 
+  const handleVideoStart = useCallback(() => {
+    if (videoRef.current) videoRef.current.style.opacity = "1";
+    if (formRef.current) formRef.current.style.opacity = "0";
+
+    setHasSpoken(false);
+    hideOverlay();
+  }, [formRef, hideOverlay]);
+
+  const handleTimeUpdate = useCallback(() => {
     const videoElement = videoRef.current;
     if (videoElement) {
-      videoElement.addEventListener("timeupdate", handleTimeUpdate);
+      if (videoElement.currentTime >= 0.9) {
+        sayMyName();
+      }
+    }
+  }, [sayMyName]);
+
+  // manage video event listeners
+  useEffect(() => {
+    const videoEl = videoRef.current;
+    if (videoEl) {
+      videoEl.addEventListener("ended", handleVideoEnd);
+      videoEl.addEventListener("play", handleVideoStart);
+      videoEl.addEventListener("timeupdate", handleTimeUpdate);
     }
 
     return () => {
-      if (videoElement) {
-        videoElement.removeEventListener("timeupdate", handleTimeUpdate);
+      if (videoEl) {
+        videoEl.removeEventListener("ended", handleVideoEnd);
+        videoEl.removeEventListener("play", handleVideoStart);
+        videoEl.removeEventListener("timeupdate", handleTimeUpdate);
       }
     };
-  }, [sayMyName]);
+  }, [handleTimeUpdate, handleVideoEnd, handleVideoStart]);
 
+  // manage form, autosubmit
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (name) {
@@ -136,39 +121,10 @@ function HelloPage() {
     return () => clearTimeout(timeoutId);
   }, [name, fetchMessage]);
 
-  useEffect(() => {
-    const handleVideoStart = () => {
-      if (formRef.current) {
-        formRef.current.style.opacity = "0";
-      }
-      hideOverlay();
-    };
-
-    const handleVideoEnd = () => {
-      if (formRef.current) {
-        formRef.current.style.opacity = "1";
-      }
-      hideOverlay();
-    };
-
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      videoElement.addEventListener("play", handleVideoStart);
-      videoElement.addEventListener("ended", handleVideoEnd);
-    }
-
-    return () => {
-      if (videoElement) {
-        videoElement.removeEventListener("play", handleVideoStart);
-        videoElement.removeEventListener("ended", handleVideoEnd);
-      }
-    };
-  }, []);
-
   return (
     <div>
       <Heading as="h1" size="8" mb="6">
-        <MdOutlineWavingHand size="28" /> Hej!
+        <MdOutlineWavingHand size="28" /> {t("Hej!")}
       </Heading>
 
       <form
@@ -181,8 +137,8 @@ function HelloPage() {
           transition: "opacity 0.5s ease-in-out",
         }}
       >
-        <Flex gap="5">
-          <Text size="8">Whats Your Name?</Text>
+        <Flex gap="5" justify="center">
+          <Text size="8">{t("Whats Your Name?")}</Text>
           <TextField.Root
             size="3"
             style={{ width: "50%" }}
@@ -227,8 +183,8 @@ function HelloPage() {
             transition: "opacity 0.5s ease-in-out",
             opacity: 0,
             width: "100%",
-            height: "340px",
             objectFit: "cover",
+            aspectRatio: "16/6.8", // remove black bars around video. Alternative: get better at video editing.
           }}
         />
       </div>
