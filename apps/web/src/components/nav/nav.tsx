@@ -15,20 +15,9 @@ export function Nav() {
   return (
     <div className="navigation-container">
       <div className="nav-section">
-        <Text
-          size="2"
-          style={{
-            padding: "0.75rem 1.5rem",
-            color: "#666",
-            fontWeight: 500,
-            textTransform: "uppercase",
-          }}
-        >
-          Main
-        </Text>
         <ul
           className="navigation-list"
-          style={{ listStyleType: "none", padding: 0, margin: 0 }}
+          style={{ listStyleType: "none", padding: 0, margin: "2  em" }}
         >
           <li>
             <Link to="/">
