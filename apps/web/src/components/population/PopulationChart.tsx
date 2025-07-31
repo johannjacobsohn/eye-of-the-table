@@ -21,11 +21,13 @@ export type PopulationChartData = {
 interface PopulationChartProps {
   data: PopulationChartData[];
   chartType?: "line" | "bar";
+  mode: "absolute" | "relative";
 }
 
 export const PopulationChart: React.FC<PopulationChartProps> = ({
   data,
   chartType = "bar",
+  mode = "relative",
 }) => {
   return (
     <ResponsiveContainer width="100%" height={300}>
@@ -35,7 +37,12 @@ export const PopulationChart: React.FC<PopulationChartProps> = ({
       >
         <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
         <XAxis dataKey="Year" />
-        <YAxis domain={["dataMin", "dataMax + 1000"]} />
+        <YAxis
+          domain={
+            mode === "relative" ? ["dataMin", "dataMax + 1000"] : undefined
+          }
+          tickFormatter={(value) => `${(value / 1e6).toFixed(0)}M`}
+        />
         <Tooltip
           contentStyle={{
             backgroundColor: "var(--accent-3)",

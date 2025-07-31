@@ -31,5 +31,8 @@
   "Error fetching population data": "Error fetching population data",
   "Population data for the USA": "Population data for the USA",
   "Hej!": "Hej!",
-  "Whats Your Name?": "Whats Your Name?"
+  "Whats Your Name?": "Whats Your Name?",
+  "Mode": "Mode",
+  "Absolute": "Absolute",
+  "Relative": "Relative"
 }

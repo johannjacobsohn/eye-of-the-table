@@ -40,9 +40,7 @@ function Home() {
         </SignedOut>
       </Card>
 
-      <SignedIn>
-        <PopulationChartSection />
-      </SignedIn>
+      <PopulationChartSection />
     </div>
   );
 }
