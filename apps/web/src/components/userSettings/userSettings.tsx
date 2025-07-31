@@ -8,7 +8,7 @@ import { useTheme } from "next-themes";
 
 import { SignOutButton, useUser } from "@clerk/tanstack-react-start";
 
-type Language = "en" | "de" | "fr" | "es";
+type Language = "en" | "de";
 
 export const UserSettings: React.FC = () => {
   const { t } = useTranslation();
