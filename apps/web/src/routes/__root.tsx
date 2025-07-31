@@ -1,23 +1,26 @@
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import {
+  Outlet,
+  createRootRouteWithContext,
+  Link,
+} from "@tanstack/react-router";
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Flex, Text, Heading, Button } from "@radix-ui/themes";
+import { useTranslation } from "react-i18next";
 
 import { Nav } from "@/components/nav";
 import { UserSettings } from "@/components/userSettings";
+import { Route as SignInRoute } from "@/routes/(auth)/signin";
+import { Route as SignUpRoute } from "@/routes/(auth)/signup";
 
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  useAuth,
-} from "@clerk/clerk-react";
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
 
 interface RootRouteContext {
   auth?: ReturnType<typeof useAuth>;
 }
 
 const RootLayout = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="app-container">
       <header className="header">
@@ -37,11 +40,11 @@ const RootLayout = () => {
             <SignedOut>
               <Flex gap="4" justify="center" align="center" m="2">
                 <Button size="2" asChild>
-                  <SignInButton />
+                  <Link to={SignInRoute.to}>{t("Sign In")}</Link>
                 </Button>
-                or
+                {t("or")}
                 <Button size="2" asChild>
-                  <SignUpButton />
+                  <Link to={SignUpRoute.to}>{t("Sign Up")}</Link>
                 </Button>
               </Flex>
             </SignedOut>

@@ -36,5 +36,8 @@
   "Absolute": "Absolute",
   "Relative": "Relative",
   "Welcome to this sample application": "Welcome to this sample application",
-  "This is a simple application.": "This is a simple application."
+  "This is a simple application.": "This is a simple application.",
+  "Sign In": "Sign In",
+  "Sign Up": "Sign Up",
+  "or": "or"
 }
