@@ -4,13 +4,14 @@ import {
   Link,
 } from "@tanstack/react-router";
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import { Flex, Text, Heading, Button } from "@radix-ui/themes";
+import { Flex, Text, Heading, Button, Avatar } from "@radix-ui/themes";
 import { useTranslation } from "react-i18next";
 
 import { Nav } from "@/components/nav";
 import { UserSettings } from "@/components/userSettings";
 import { Route as SignInRoute } from "@/routes/(auth)/signin";
 import { Route as SignUpRoute } from "@/routes/(auth)/signup";
+import lampLogo from "@/assets/lamp.jpg";
 
 import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
 
@@ -30,6 +31,7 @@ const RootLayout = () => {
           style={{ height: "100%", padding: "0 1.5rem" }}
         >
           <Flex align="center" gap="3">
+            <Avatar src={lampLogo} radius="full" variant="soft" fallback="" />
             <Heading size="5">
               <Text color="purple">Eye</Text> Of the T
               <Text color="purple">able</Text>
