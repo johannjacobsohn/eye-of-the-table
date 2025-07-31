@@ -1,0 +1,45 @@
+/* Styles for inputs, buttons, and h1 elements similar to Radix components */
+
+#signin h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+#signin input {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#signin input:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 1px #3182ce;
+}
+
+#signin button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  background-color: #3182ce;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#signin button:hover {
+  background-color: #2b6cb0;
+}
+
+#signin button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
