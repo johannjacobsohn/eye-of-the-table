@@ -6,7 +6,7 @@ import { FiGlobe, FiSun, FiMoon, FiMonitor } from "react-icons/fi";
 import { DropdownMenu, Text, Flex, Avatar } from "@radix-ui/themes";
 import { useTheme } from "next-themes";
 
-import { SignOutButton, useUser } from "@clerk/tanstack-react-start";
+import { SignOutButton, useUser } from "@clerk/clerk-react";
 
 type Language = "en" | "de";
 

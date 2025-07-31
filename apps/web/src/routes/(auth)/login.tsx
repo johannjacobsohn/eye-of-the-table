@@ -1,4 +1,4 @@
-import { SignIn } from "@clerk/tanstack-react-start";
+import { SignIn } from "@clerk/clerk-react";
 
 import { createFileRoute } from "@tanstack/react-router";
 
