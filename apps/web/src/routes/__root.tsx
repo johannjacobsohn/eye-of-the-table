@@ -11,7 +11,7 @@ import {
   SignInButton,
   SignUpButton,
   useAuth,
-} from "@clerk/tanstack-react-start";
+} from "@clerk/clerk-react";
 
 interface RootRouteContext {
   auth?: ReturnType<typeof useAuth>;
