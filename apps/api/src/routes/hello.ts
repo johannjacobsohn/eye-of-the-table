@@ -12,14 +12,10 @@ export default async function helloRoutes(fastify: FastifyInstance) {
     }
 
     const { name, lang } = request.query as { lang?: string; name?: string };
-    let message;
 
-    if (lang === 'de') {
-      message = name ? `Hallo ${name}` : 'Hallo Welt';
-    } else {
-      message = name ? `Hello ${name}` : 'Hello World';
-    }
+    const greeting = lang === 'de' ? 'Hallo' : 'Hello';
+    const defaultName = lang === 'de' ? 'Welt': 'World';
 
-    reply.send({ message });
+    reply.send({ message: `${greeting} ${name || defaultName}!` });
   });
 }
