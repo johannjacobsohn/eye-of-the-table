@@ -24,6 +24,7 @@ export const PopulationChartSection: React.FC = () => {
   const [sortDirection, setSortDirection] =
     React.useState<SortDirection>("asc");
   const [limit, setLimit] = React.useState<number>(10);
+  const [mode, setMode] = React.useState<"absolute" | "relative">("absolute");
 
   const { data, isLoading, error } = useQuery<PopulationChartData[]>({
     queryKey: ["population", sortField, sortDirection, limit],
@@ -110,6 +111,25 @@ export const PopulationChartSection: React.FC = () => {
                 </Select.Content>
               </Select.Root>
             </Box>
+
+            <Box>
+              <Select.Root
+                size="2"
+                value={mode}
+                onValueChange={(value) =>
+                  setMode(value as "absolute" | "relative")
+                }
+              >
+                <Select.Trigger placeholder={t("Mode")} />
+                <Select.Content>
+                  <Select.Group>
+                    <Select.Label>{t("Mode")}</Select.Label>
+                    <Select.Item value="absolute">{t("Absolute")}</Select.Item>
+                    <Select.Item value="relative">{t("Relative")}</Select.Item>
+                  </Select.Group>
+                </Select.Content>
+              </Select.Root>
+            </Box>
           </Flex>
         </Flex>
       </Heading>
@@ -123,7 +143,11 @@ export const PopulationChartSection: React.FC = () => {
           <Text size="2" color="gray" mb="2">
             {t("Population data for the USA")}
           </Text>
-          <PopulationChart data={data ?? []} chartType={chartType} />
+          <PopulationChart
+            data={data ?? []}
+            chartType={chartType}
+            mode={mode}
+          />
         </>
       )}
     </Card>

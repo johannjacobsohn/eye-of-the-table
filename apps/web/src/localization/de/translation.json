@@ -35,5 +35,8 @@
   "Error fetching population data": "Fehler beim Abrufen der Bevölkerungsdaten",
   "Population data for the USA": "Bevölkerungsdaten für die USA",
   "Hej!": "Hej!",
-  "Whats Your Name?": "Wie heißt du?"
+  "Whats Your Name?": "Wie heißt du?",
+  "Mode": "Modus",
+  "Absolute": "Absolut",
+  "Relative": "Relativ"
 }
