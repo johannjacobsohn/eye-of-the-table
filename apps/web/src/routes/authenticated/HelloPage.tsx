@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { MdOutlineWavingHand } from "react-icons/md";
 import { Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import { useTranslation } from "react-i18next";
+import video from "@/assets/hello-there.mp4";
 
 export const Route = createFileRoute("/authenticated/HelloPage")({
   component: HelloPage,
@@ -178,7 +179,7 @@ function HelloPage() {
           // autoPlay
           // loop
           ref={videoRef}
-          src="/src/assets/hello-there.mp4"
+          src={video}
           style={{
             transition: "opacity 0.5s ease-in-out",
             opacity: 0,
