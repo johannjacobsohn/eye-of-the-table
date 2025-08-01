@@ -5,7 +5,7 @@ import { Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import { useTranslation } from "react-i18next";
 import video from "@/assets/hello-there.mp4";
 
-export const Route = createFileRoute("/authenticated/HelloPage")({
+export const Route = createFileRoute("/authenticated/hello")({
   component: HelloPage,
 });
 

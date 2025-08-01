@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@/components/link";
 import { FiHome } from "react-icons/fi";
 import { MdOutlineWavingHand } from "react-icons/md";
-import { Route as HelloRoute } from "@/routes/authenticated/HelloPage";
+import { Route as HelloRoute } from "@/routes/authenticated/hello";
 
 import { Flex, Text } from "@radix-ui/themes";
 import { useLocation } from "@tanstack/react-router";
