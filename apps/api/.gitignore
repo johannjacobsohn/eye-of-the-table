@@ -57,5 +57,4 @@ profile*
 *clinic*
 *flamegraph*
 
-/src/generated/prisma
 .env
