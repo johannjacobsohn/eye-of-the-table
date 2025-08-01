@@ -1,4 +1,4 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifySchema } from 'fastify';
 
 interface PopulationChartQueryData {
   annotations: {
@@ -20,8 +20,49 @@ interface PopulationChartQueryData {
   data: Array<{ [key: string]: any }>;
 }
 
+const populationSchema: FastifySchema = {
+  querystring: {
+    type: 'object',
+    properties: {
+      page: { type: 'integer', minimum: 1, default: 1 },
+      limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
+      sort: { type: 'string', enum: ['Year', 'Nation'], default: 'Year' },
+      order: { type: 'string', enum: ['asc', 'desc'], default: 'asc' },
+    },
+    required: [],
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        data: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              Nation: { type: 'string' },
+              Year: { type: 'integer' },
+              'Total Population': { type: 'integer' },
+            },
+            required: ['Nation', 'Year', 'Total Population'],
+          },
+        },
+        total: { type: 'integer' },
+        page: { type: 'integer' },
+        limit: { type: 'integer' },
+      },
+    },
+    500: {
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+      },
+    },
+  },
+};
+
 export default async function populationRoutes(fastify: FastifyInstance) {
-  fastify.get('/population', async (request, reply) => {
+  fastify.get('/population', { schema: populationSchema }, async (request, reply) => {
     const { page = 1, limit = 10, sort = 'Year', order = 'asc' } = request.query as {
       page?: number;
       limit?: number;

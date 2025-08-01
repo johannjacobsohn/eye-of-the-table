@@ -1,8 +1,33 @@
-import { FastifyInstance } from 'fastify';
-import { getAuth } from '@clerk/fastify'
+import { FastifyInstance, FastifySchema } from 'fastify';
+import { getAuth } from '@clerk/fastify';
+
+const helloSchema: FastifySchema = {
+  querystring: {
+    type: 'object',
+    properties: {
+      name: { type: 'string' },
+      lang: { type: 'string', enum: ['en', 'de'] },
+    },
+    required: [],
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        message: { type: 'string' },
+      },
+    },
+    401: {
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+      },
+    },
+  },
+};
 
 export default async function helloRoutes(fastify: FastifyInstance) {
-  fastify.get('/hello', async (request, reply) => {
+  fastify.get('/hello', { schema: helloSchema }, async (request, reply) => {
     // Use `getAuth()` to get the user's ID
     const { userId } = getAuth(request)
 
