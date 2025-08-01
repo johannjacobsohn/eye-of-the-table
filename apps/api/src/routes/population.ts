@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifySchema } from 'fastify';
+import { createClient } from 'redis';
 
 interface PopulationChartQueryData {
   annotations: {
@@ -61,7 +62,14 @@ const populationSchema: FastifySchema = {
   },
 };
 
+const redisClient = createClient({
+  url: 'redis://redis:6379',
+});
+redisClient.on('error', (err) => console.error('Redis Client Error', err));
+
 export default async function populationRoutes(fastify: FastifyInstance) {
+  await redisClient.connect();
+
   fastify.get('/population', { schema: populationSchema }, async (request, reply) => {
     const { page = 1, limit = 10, sort = 'Year', order = 'asc' } = request.query as {
       page?: number;
@@ -70,10 +78,18 @@ export default async function populationRoutes(fastify: FastifyInstance) {
       order?: 'asc' | 'desc';
     };
 
-    const API_URL =
-      'https://honolulu-api.datausa.io/tesseract/data.jsonrecords?cube=pums_5&drilldowns=Nation,Year&measures=Total+Population';
+    const cacheKey = `population:${page}:${limit}:${sort}:${order}`;
 
     try {
+      // Check Redis cache
+      const cachedData = await redisClient.get(cacheKey);
+      if (cachedData) {
+        return reply.send(JSON.parse(cachedData));
+      }
+
+      const API_URL =
+        'https://honolulu-api.datausa.io/tesseract/data.jsonrecords?cube=pums_5&drilldowns=Nation,Year&measures=Total+Population';
+
       const res = await fetch(API_URL);
       if (!res.ok) {
         throw new Error('Error fetching population data');
@@ -91,12 +107,19 @@ export default async function populationRoutes(fastify: FastifyInstance) {
 
       const paginatedData = sortedData.slice((page - 1) * limit, page * limit);
 
-      reply.send({
+      const responseData = {
         data: paginatedData,
         total: filteredData.length,
         page,
         limit,
+      };
+
+      // Store result in Redis cache
+      await redisClient.set(cacheKey, JSON.stringify(responseData), {
+        EX: 3600, // Cache for 1 hour
       });
+
+      reply.send(responseData);
     } catch (error) {
       reply.status(500).send({ error: (error as Error).message });
     }
