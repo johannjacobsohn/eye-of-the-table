@@ -44,9 +44,14 @@ export const PopulationChartSection: React.FC = () => {
   return (
     <Card my="6" size="4">
       <Heading as="h2" size="6" mb="3">
-        <Flex gap="4" align="center" justify="between">
+        <Flex
+          gap="4"
+          align="center"
+          justify="between"
+          direction={{ initial: "column", md: "row" }}
+        >
           <Flex align="center" gap="2">
-            {t("Population Chart")}
+            <Text>{t("Population Chart")}</Text>
             <Flex gap="1">
               <IconButton
                 variant="ghost"

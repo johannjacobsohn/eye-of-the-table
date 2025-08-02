@@ -4,17 +4,8 @@ import {
   Link,
 } from "@tanstack/react-router";
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import {
-  Flex,
-  Text,
-  Heading,
-  Button,
-  Avatar,
-  IconButton,
-} from "@radix-ui/themes";
+import { Flex, Text, Heading, Button, Avatar } from "@radix-ui/themes";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
 
 import { Nav } from "@/components/nav";
 import { UserSettings } from "@/components/userSettings";
@@ -30,7 +21,6 @@ interface RootRouteContext {
 
 const RootLayout = () => {
   const { t } = useTranslation();
-  const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
     <div className="app-container">
@@ -41,13 +31,6 @@ const RootLayout = () => {
           style={{ height: "100%", padding: "0 1.5rem" }}
         >
           <Flex align="center" gap="3">
-            <IconButton
-              variant="ghost"
-              className="mobile-nav-toggle"
-              onClick={() => setIsNavOpen(!isNavOpen)}
-            >
-              <RxHamburgerMenu />
-            </IconButton>
             <Avatar src={lampLogo} radius="full" variant="soft" fallback="" />
             <Heading size="5">
               <Text color="purple">Eye</Text> Of the T
@@ -75,7 +58,7 @@ const RootLayout = () => {
       </header>
 
       <div className="content-container">
-        <aside className={`navigation ${isNavOpen ? "open" : ""}`}>
+        <aside className="navigation">
           <Nav />
         </aside>
 

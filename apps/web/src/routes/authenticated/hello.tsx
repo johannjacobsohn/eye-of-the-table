@@ -60,7 +60,8 @@ function HelloPage() {
 
     const voices = window.speechSynthesis
       .getVoices()
-      .filter((v) => v.lang === lang);
+      .filter((v) => v.lang === utterance.lang);
+
     utterance.voice = voices[Math.floor(Math.random() * voices.length)]; // Use random voice
 
     speechSynthesis.speak(utterance);
@@ -138,11 +139,16 @@ function HelloPage() {
           transition: "opacity 0.5s ease-in-out",
         }}
       >
-        <Flex gap="5" justify="center">
-          <Text size="8">{t("Whats Your Name?")}</Text>
+        <Flex
+          gap="5"
+          justify="center"
+          direction={{ initial: "column", sm: "row" }}
+        >
+          <label htmlFor="name">
+            <Text size="8">{t("Whats Your Name?")}</Text>
+          </label>
           <TextField.Root
             size="3"
-            style={{ width: "50%" }}
             variant="soft"
             value={name}
             onChange={(e) => setName(e.target.value)}
