@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import i18n from "@/i18n";
 import { useTranslation } from "react-i18next";
 
 import { FiGlobe, FiSun, FiMoon, FiMonitor } from "react-icons/fi";
@@ -11,8 +10,8 @@ import { SignOutButton, useUser } from "@clerk/clerk-react";
 type Language = "en" | "de";
 
 export const UserSettings: React.FC = () => {
-  const { t } = useTranslation();
-  const [language, setLanguage] = useState<Language>("en");
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState<Language>(i18n.language as Language);
   const { theme, setTheme } = useTheme();
 
   const handleLanguageChange = (newLanguage: Language) => {
@@ -93,11 +92,9 @@ export const UserSettings: React.FC = () => {
 
         <DropdownMenu.Separator />
 
-        <DropdownMenu.Item>
-          <SignOutButton>
-            <Text>{t("Sign out")}</Text>
-          </SignOutButton>
-        </DropdownMenu.Item>
+        <SignOutButton>
+          <DropdownMenu.Item>{t("Sign out")}</DropdownMenu.Item>
+        </SignOutButton>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
