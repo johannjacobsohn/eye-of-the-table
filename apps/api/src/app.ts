@@ -15,7 +15,28 @@ const app: FastifyPluginAsync<AppOptions> = async (
   fastify,
   opts
 ): Promise<void> => {
-  await fastify.register(import('@fastify/swagger'))
+  await fastify.register((await import('@fastify/swagger')).default, {
+    openapi: {
+      info: {
+        title: 'Generic API',
+        version: '1.0.0',
+      },
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+          },
+        },
+      },
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+    },
+  })
 
   await fastify.register(import('@fastify/swagger-ui'), {
     routePrefix: '/swagger',
