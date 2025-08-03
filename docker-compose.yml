@@ -15,8 +15,6 @@ services:
       - frontend
     ports:
       - 8080
-    expose: 
-      - 8080
 
   api:
     build:
@@ -36,7 +34,7 @@ services:
     image: "redis:latest"
     container_name: "redis"
     ports:
-      - "6379:6379"
+      - "6379"
     networks:
       - backend
     volumes:
