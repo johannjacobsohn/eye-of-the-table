@@ -13,7 +13,7 @@ function Home() {
   return (
     <div>
       <Heading as="h1" size="8">
-        Some Dashboard
+        {t("Some Dashboard")}
       </Heading>
       <Card my="6" size="4">
         <Heading as="h2" size="6" mb="3">
