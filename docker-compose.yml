@@ -15,8 +15,6 @@ services:
       - frontend
     ports:
       - 8080
-    expose: 
-      - 8080
 
   api:
     build:
@@ -25,6 +23,9 @@ services:
     environment:
       - CLERK_PUBLISHABLE_KEY=${CLERK_PUBLISHABLE_KEY}
       - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
     restart: always
     depends_on:
       - redis
@@ -36,7 +37,7 @@ services:
     image: "redis:latest"
     container_name: "redis"
     ports:
-      - "6379:6379"
+      - "6379"
     networks:
       - backend
     volumes:
